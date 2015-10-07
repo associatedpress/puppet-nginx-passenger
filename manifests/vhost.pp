@@ -31,7 +31,7 @@ define nginx::vhost(
   $makeroot = true,
   $rails = false,
 ){
-  include nginx
+  include passenger_nginx
 
   if $makeroot{
     file { $root:
@@ -39,7 +39,7 @@ define nginx::vhost(
       owner   => 'www-data',
       group   => 'www-data',
       mode    => '0755',
-      require => Class['nginx'],
+      require => Class['passenger_nginx'],
     }
   }
 
@@ -50,23 +50,23 @@ define nginx::vhost(
 
   file { $host:
     ensure  => present,
-    path    => "${nginx::installdir}/conf/sites-available/${host}",
+    path    => "${passenger_nginx::installdir}/conf/sites-available/${host}",
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template("nginx/${template}"),
-    require => Class['nginx'],
+    content => template("passenger_nginx/${template}"),
+    require => Class['passenger_nginx'],
   }
 
-  file { "${nginx::installdir}/conf/sites-enabled/${host}":
+  file { "${passenger_nginx::installdir}/conf/sites-enabled/${host}":
     ensure  => link,
-    target  => "${nginx::installdir}/conf/sites-available/${host}",
+    target  => "${passenger_nginx::installdir}/conf/sites-available/${host}",
     require => File[$host],
   }
 
   exec { "nginx ${host}":
     command => '/etc/init.d/nginx restart',
-    require => File["${nginx::installdir}/conf/sites-enabled/${host}"],
+    require => File["${passenger_nginx::installdir}/conf/sites-enabled/${host}"],
   }
 
 }
