@@ -3,7 +3,7 @@
 This is a fork of [puppet-nginx](https://bitbucket.org/sgmac/puppet-nginx) to install nginx with
 passenger using default ruby version on debian wheezy or ubuntu quantal.
 
-This module installs Nginx using [puppet-rvm](https://github.com/blt04/puppet-rvm). Please, read the documentation before you begin. This module has been tested on Debian Squeeze 6.0.5. For custom types, do not forget to enable pluginsync: 
+This module installs Nginx using [puppet-rvm](https://github.com/blt04/puppet-rvm). Please, read the documentation before you begin. This module has been tested on Debian Squeeze 6.0.5. For custom types, do not forget to enable pluginsync:
 ```
 [main]
 pluginsync = true
@@ -23,17 +23,17 @@ By default installs on _/opt/nginx_, there are some variables you might override
 ```
 $ruby_version      = 'ruby-1.9.3-p125'
 $passenger_version = '3.0.12'
-$installdir	   = '/opt/nginx'
-$logdir		   = '/var/log/nginx'
-$www		   = '/var/www'
+$installdir    = '/opt/nginx'
+$logdir        = '/var/log/nginx'
+$www           = '/var/www'
 ```
 A custom installation might look like this:
 
-``` 
-node webserver { 
+```
+node webserver {
     class { 'nginx':
-	 $installdir => '/usr/local/nginx',
-	 $logdir     => '/usr/local/logs/nginx',
+     $installdir => '/usr/local/nginx'
+     $logdir     => '/usr/local/logs/nginx',
     }
 }
 ```
@@ -44,13 +44,13 @@ You can easily configure a virtual hosts. An example is:
 
 ```
 nginx::vhost { 'www.example.com':
-	port => '8080'
-	rails => true,
+    port => '8080'
+    rails => true,
 }
 ```
 The _rails_ attribute is optional and set to false by default. However, if you want to deploy a rails app, use this attribute and the rails template will be used instead.
 
-### MIT License 
+### MIT License
 
 Copyright (C) 2012 by Sergio Galván
 
