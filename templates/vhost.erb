@@ -1,10 +1,12 @@
 server {
 
-      listen <%= port %>;
-      server_name <%= host %>;
-      root <%= root %>;
+    listen <%= port %>;
+    server_name <%= host %>;
+    root <%= root %>;
 
-      access_log <%= scope.lookupvar('nginx::logdir') %>/<%= host %>_access.log;
-      error_log  <%= scope.lookupvar('nginx::logdir') %>/<%= host %>_error.log;
+    passenger_ruby /home/<%= @user %>/.rvm/wrappers/<%= @ruby_version %><% if !@gemset.empty? %>@<%= @gemset %><% end %>/ruby;
+
+    access_log <%= scope.lookupvar('nginx::logdir') %>/<%= host %>_access.log;
+    error_log  <%= scope.lookupvar('nginx::logdir') %>/<%= host %>_error.log;
 
 }
